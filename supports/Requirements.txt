@@ -1,0 +1,11 @@
+🎯 Pré traiter des données TEXTES pour obtenir un jeu de données exploitable
+
+❒ Les champs de texte sont nettoyés (retirer la ponctuation, les mots de liaison, mettre tout en minuscule)
+
+❒ Une fonction permettant de “tokeniser” une phrase a été écrite et fonctionne correctement
+
+❒ Une fonction permettant de “stemmer” une phrase a été écrite et fonctionne correctement
+
+❒ Une fonction permettant de “lemmatiser” une phrase a été écrite et fonctionne correctement
+
+❒ Des features bag-of-word sont con
