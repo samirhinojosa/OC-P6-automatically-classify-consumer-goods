@@ -34,6 +34,10 @@ For this mission, the **Marketplace** has provided images with an  database cont
 - datasets/flipkart_com-ecommerce_sample_1050.csv
 - images/Flipkart
 
+The complete data is available on the following link
+
+- [**E-Commerce data**](https://s3-eu-west-1.amazonaws.com/static.oc-static.com/prod/courses/files/Parcours_data_scientist/Projet+-+Textimage+DAS+V2/Dataset+projet+pre%CC%81traitement+textes+images.zip)
+
 ## **Repository file structure**
 
 - cleaning_notebook.ipynb: Cleaning notebook

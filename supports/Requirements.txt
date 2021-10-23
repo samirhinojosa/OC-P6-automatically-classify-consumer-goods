@@ -8,4 +8,52 @@
 
 ❒ Une fonction permettant de “lemmatiser” une phrase a été écrite et fonctionne correctement
 
-❒ Des features bag-of-word sont con
+❒ Des features bag-of-word sont construites (avec étapes de nettoyage supplémentaires : seuil de fréquence des mots, normalisation des mots (racines, utilisation du package NLTK))
+
+❒ Une phrase (ou un court texte) d'exemple permet d'illustrer et de tester la bonne réalisation des 5 étapes précédentes
+
+ 
+
+🎯Pré traiter des données IMAGES pour obtenir un jeu de données exploitable
+
+❒ Des librairies spécialisés pour un premier traitement du contraste (ex : openCV) sont utilisées
+
+❒ Le bruit est filtré
+
+❒ L'histogramme est égalisé
+
+❒ Une fonction permettant d'extraire des features (via l'un des algorithmes suivants : ORB, SIFT, SURF ou réseaux de neurones comme par exemple CNN) a été écrite et fonctionne correctement
+
+❒ Une fonction permettant de construire des features de type "bag-of-image" a été écrite et fonctionne correctement
+
+ 
+
+🎯Mettre en œuvre des techniques de réduction de dimension
+
+❒ La nécessité de la réduction de dimension est justifiée (en particulier dans le cas de données image et texte)
+
+❒ Une méthode de réduction de dimension (ex : ACP) pour des données image et texte a été appliquée
+
+❒ Le choix des valeurs des paramètres dans la méthode de réduction de dimension retenue est justifié (ex : le nombre de dimensions conservées pour l'ACP)
+
+ 
+
+🎯Représenter graphiquement des données à grandes dimensions
+
+❒ Au moins un graphique représentant les informations contenus dans des données à plus de 2D a été réalisé
+
+❒ Le graphique réalisé est lisible (taille, densité, etc.) et compréhensible (avec un titre et une légende, axes légendés)
+
+❒ L'apprenant a expliqué la signification des différents éléments graphiques à un public non expert (variables représentées sur les axes, par les couleurs, la taille, ...)
+
+ 
+
+🎯Respect des consignes
+
+❒ Les livrables sont présents et clairement identifiés
+
+❒ Les livrables sont complets
+
+❒ Les livrables ont été déposés 48h à l'avance
+
+❒ Le temps de présentation est bien géré par l'étudiant
