@@ -4,6 +4,19 @@ import pandas as pd
 from math import prod
 
 
+# print(100 * '_')
+# print("{:<15} {:<10} {:<8} {:<10} {:<20} {:<16} {:<11}".format("dataset", "clusters", "time", 
+#                                                                "inertia", "calinski-harabasz", 
+#                                                                "davies-bouldin", "silhouette"))
+
+# # kmeans = KMeans(init="k-means++", n_clusters=4, max_iter=1000, random_state=10)
+# benchmark_kmeans("PCA-reduced", kmeans_reduced, n_clusters=4, data=df_pca_reduced.values)
+
+# # kmeans = KMeans(init="k-means++", n_clusters=9, max_iter=1000, random_state=10)
+# benchmark_kmeans("PCA-complete", kmeans_complete, n_clusters=9, data=df_pca_complete.values)
+
+
+
 def df_analysis(df, name_df, *args, **kwargs):
     """
     Method used to analyze on the DataFrame.
@@ -114,13 +127,3 @@ def df_analysis(df, name_df, *args, **kwargs):
             
             
             
-# print(100 * '_')
-# print("{:<15} {:<10} {:<8} {:<10} {:<20} {:<16} {:<11}".format("dataset", "clusters", "time", 
-#                                                                "inertia", "calinski-harabasz", 
-#                                                                "davies-bouldin", "silhouette"))
-
-# # kmeans = KMeans(init="k-means++", n_clusters=4, max_iter=1000, random_state=10)
-# benchmark_kmeans("PCA-reduced", kmeans_reduced, n_clusters=4, data=df_pca_reduced.values)
-
-# # kmeans = KMeans(init="k-means++", n_clusters=9, max_iter=1000, random_state=10)
-# benchmark_kmeans("PCA-complete", kmeans_complete, n_clusters=9, data=df_pca_complete.values)
