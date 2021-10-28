@@ -61,6 +61,7 @@ def df_analysis(df, name_df, *args, **kwargs):
         type_cols = df.dtypes.apply(lambda x: x.name).to_dict() 
         df_resume = pd.DataFrame(list(type_cols.items()), columns = ["name", "type"])
         df_resume["records"] = list(df.count())
+        df_resume["unique"] = list(df.nunique())
         df_resume["# NaN"] = list(df.isnull().sum())
         df_resume["% NaN"] = list(((df.isnull().sum() / len(df.index))*100).round(2))
         
@@ -85,15 +86,19 @@ def df_analysis(df, name_df, *args, **kwargs):
             print("\n")
         
         if type_analysis is None or type_analysis != "summarized":
+            
             pd.set_option("display.max_rows", None) # show full of showing rows
             pd.set_option("display.max_columns", None) # show full of showing cols
             pd.set_option("display.max_colwidth", None) # show full width of showing cols
             pd.set_option("display.float_format", lambda x: "%.5f" % x) # show full content in cell    
             
             if type_analysis is None or type_analysis != "complete":
+                
                 print("\n- Type object and records by columns      (",memory_usage,")")
                 print(70 * '_')
+                
             elif type_analysis == "complete" and (df.select_dtypes(["int64"]).shape[1] > 0 or df.select_dtypes(["float64"]).shape[1] > 0):
+                
                 df_resume["unique"] = list(df.nunique())
                 df_desc = pd.DataFrame(df.describe().T).reset_index()
                 df_desc = df_desc.rename(columns={"index": "name"})
