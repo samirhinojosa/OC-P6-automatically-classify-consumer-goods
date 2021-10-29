@@ -31,15 +31,22 @@ def df_analysis(df, name_df,
     columns = kwargs.get("columns", None)
 
     # Getting the variables
-    # tha analysis type are ["complete", "header"]
+    # tha analysis type are ["complete", "summarized", "header"]
     # By defaut "complete"
     analysis_type = kwargs.get("analysis_type", None)
 
-    ordered_columns = [
-        "name", "type", "records", "unique",
-        "# NaN", "% NaN", "mean", "min",
-        "25%", "50%", "75%", "max", "std"
+    columns_reduced = [
+        "name", "type", "records", "unique"
     ]
+
+    columns_complete = columns_reduced + ["# NaN", "% NaN", "mean",
+                                          "min", "25%", "50%",
+                                          "75%", "max", "std"]
+
+    # Identifying the columns name length
+    columns_name_length = []
+    for col in df.columns:
+        columns_name_length.append(len(col))
 
     # Calculating the memory usage based on dataframe.info()
     buf = io.StringIO()
@@ -65,7 +72,7 @@ def df_analysis(df, name_df,
 
         # Printing the analysis header
         print("\nAnalysis Header of", name_df, "dataset")
-        print(70*"-")
+        print(80*"-")
 
         print("- Dataset shape:\t\t\t", df.shape[0], "rows and",
               df.shape[1], "columns")
@@ -94,29 +101,59 @@ def df_analysis(df, name_df,
               memory_usage.split("memory usage: ")[1])
 
         if columns is not None:
-            if df.size == df.drop_duplicates(columns).size:
-                print("\n- The key(s):", columns, "is not present\
-                      multiple times in the dataframe.\n\
-                      It CAN be used as a primary key.")
-            else:
-                print("\n- The key(s):", columns, "is present multiple\
-                      times in the dataframe.\n  It CANNOT be used as a\
-                      primary key.")
+            string_present = "present multiple times in the dataframe."
+            string_used = "be used as a primary key."
+            string_error = "Column does not exist"
+
+            try:
+
+                if df.size == df.drop_duplicates(columns).size:
+                    print("\n- The key(s):\t", columns, "is not",
+                          string_present, "\n\t\t It CAN", string_used)
+                else:
+                    print("\n- The key(s):\t", columns, "is", string_present,
+                          "\n\t\t It CANNOT", string_used)
+            except Exception:
+                print("\n- The key(s):\t\033[31m", string_error,
+                      "\033[0m", sep="")
 
         # Enabling the visualizacion of
         # all columns, rows, cell and floar format
-        print("\n")
-        pd.set_option("display.max_rows",
-                      None)  # show full of showing rows
-        pd.set_option("display.max_columns",
-                      None)  # show full of showing cols
-        pd.set_option("display.max_colwidth",
-                      None)  # show full width of showing cols
+        pd.set_option("display.max_rows", None)  # all rows
+        pd.set_option("display.max_columns", None)  # all cols
+        pd.set_option("display.max_colwidth", None)  # whole cell
         pd.set_option("display.float_format",
-                      lambda x: "%.5f" % x)  # show full float in cell
+                      lambda x: "%.5f" % x)  # full floating number
 
         if analysis_type == "complete" or analysis_type is None:
-            pass
+            df_resume["unique"] = list(df.nunique())
+
+            # Adding describing columns
+            if (df.select_dtypes(["int64"]).shape[1] > 0 or
+                    df.select_dtypes(["float64"]).shape[1] > 0):
+
+                df_desc = pd.DataFrame(df.describe().T).reset_index()
+                df_desc = df_desc.rename(columns={"index": "name"})
+                df_resume = df_resume.merge(right=df_desc[["name", "mean",
+                                                           "min", "25%",
+                                                           "50%", "75%",
+                                                           "max", "std"]],
+                                            on="name", how="left")
+                df_resume = df_resume[columns_complete]
+
+                if max(columns_name_length) > 18:
+                    n = 132
+                else:
+                    n = 120
+            else:
+                df_resume = df_resume[columns_reduced]
+                n = 70
+
+            print("\nDetailed analysis of", name_df, "dataset")
+            print(n*"-")
+
+            display(df_resume.sort_values("records", ascending=False))
+
         elif analysis_type == "header":
             pass
 
