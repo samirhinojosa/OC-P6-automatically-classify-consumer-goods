@@ -31,7 +31,7 @@ def df_analysis(df, name_df,
     columns = kwargs.get("columns", None)
 
     # Getting the variables
-    # tha analysis type are ["complete", "summarized", "header"]
+    # the analysis type are ["complete", "summarized", "header"]
     # By defaut "complete"
     analysis_type = kwargs.get("analysis_type", None)
 
