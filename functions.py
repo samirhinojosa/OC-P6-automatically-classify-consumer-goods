@@ -1,7 +1,13 @@
+# General
 import io
 import gc
 import pandas as pd
 from math import prod
+
+# Visualizations
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 
 
 def df_analysis(df, name_df,
@@ -161,3 +167,53 @@ def df_analysis(df, name_df,
         pd.reset_option("display.max_columns")  # reset max of showing cols
         pd.reset_option("display.max_colwidth")  # reset width of showing cols
         pd.reset_option("display.float_format")  # reset float format in cell
+
+
+def barplot_and_pie(df, title, subtitle_keyword):
+    """
+    Method used to plot a bar and pie graph.
+
+    Parameters:
+    -----------------
+        df (pandas.DataFrame): Dataset to analyze
+        title (str): Graph name
+        subtitle_keyword (str); Subtitle graph name
+
+    Returns:
+    -----------------
+        None.
+        PLot the graphs.
+    """
+
+    # Getting the data to plot them
+    data = df.sort_values(ascending=False).value_counts().values.tolist()
+    labels = df.sort_values(ascending=False).value_counts().index.tolist()
+
+    if len(data) > 10:
+        figsize = [25, 10]
+    else:
+        figsize = [14, 10]
+
+    # defining the color palette
+    colors = sns.color_palette("husl", len(data))
+
+    # Setting up the fig
+    fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=figsize)
+    fig.suptitle(title, size=25)
+
+    # Setting up the pieplot
+    ax1.set_title(key_word + " by percentage (%)", size=14)
+    ax1.pie(x=data, labels=labels, colors=colors, autopct='%1.1f%%')
+
+    # Setting up the barplot
+    ax2.set_title(key_word + " by quantity (#)", size=14)
+    plot = sns.barplot(x=labels, y=data, ax=ax2)
+    plot.set_xticklabels(labels=labels, rotation=70, size=12,
+                         horizontalalignment="right")
+
+    for index, d in enumerate(data):
+        plt.text(x=index, y=d+1, s=f"{d}", horizontalalignment="center",
+                 fontdict=dict(fontsize=10, color="gray"))
+
+    plt.tight_layout()
+    plt.show()
