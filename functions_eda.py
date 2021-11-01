@@ -175,7 +175,7 @@ def barplot_and_pie(df, title, subtitle_keyword):
 
     Parameters:
     -----------------
-        df (pandas.DataFrame): Dataset to analyze
+        df (pandas.DataFrame): Column dataset to analyze
         title (str): Graph name
         subtitle_keyword (str); Subtitle graph name
 
@@ -202,11 +202,11 @@ def barplot_and_pie(df, title, subtitle_keyword):
     fig.suptitle(title, size=25)
 
     # Setting up the pieplot
-    ax1.set_title(key_word + " by percentage (%)", size=14)
+    ax1.set_title(subtitle_keyword + " by percentage (%)", size=14)
     ax1.pie(x=data, labels=labels, colors=colors, autopct='%1.1f%%')
 
     # Setting up the barplot
-    ax2.set_title(key_word + " by quantity (#)", size=14)
+    ax2.set_title(subtitle_keyword + " by quantity (#)", size=14)
     plot = sns.barplot(x=labels, y=data, ax=ax2)
     plot.set_xticklabels(labels=labels, rotation=70, size=12,
                          horizontalalignment="right")
