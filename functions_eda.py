@@ -9,9 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-
-def df_analysis(df, name_df,
-                *args, **kwargs):
+def df_analysis(df, name_df, *args, **kwargs):
     """
     Method used to analyze on the DataFrame.
 
