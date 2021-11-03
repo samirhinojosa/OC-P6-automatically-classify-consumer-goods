@@ -158,8 +158,19 @@ def df_analysis(df, name_df, *args, **kwargs):
 
             display(df_resume.sort_values("records", ascending=False))
 
+            if (df.select_dtypes(["int64"]).shape[1] > 0 or
+                    df.select_dtypes(["float64"]).shape[1] > 0):
+                del [[df_resume, df_desc]]
+            else:
+                del [[df_resume]]
+
+            gc.collect()
+            df_resume, df_desc = (pd.DataFrame() for i in range(2))
+
         elif analysis_type == "header":
-            pass
+            del df_resume
+            gc.collect()
+            df_resume = pd.DataFrame()
 
         pd.reset_option("display.max_rows")  # reset max of showing rows
         pd.reset_option("display.max_columns")  # reset max of showing cols
