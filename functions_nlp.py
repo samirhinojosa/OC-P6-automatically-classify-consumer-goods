@@ -6,7 +6,10 @@ from bs4 import BeautifulSoup
 
 # Natural Language Processing
 import nltk
+nltk.download("wordnet")
 from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
+from nltk.stem import WordNetLemmatizer
 
 
 def check_characters(text):
@@ -394,7 +397,7 @@ def remove_stop_words(words, language):
 
     Returns:
     -----------------
-        words (list): List of words without stop words
+        filtered_words (list): List of words without stop words
     """
 
     stop_words = set(stopwords.words(language))
@@ -402,3 +405,45 @@ def remove_stop_words(words, language):
                       if word not in stop_words]
 
     return filtered_words
+
+
+def stem_words(words):
+    """
+    Method used to stem words using Snowball stemming (Porter2) algorithm
+
+    Parameters:
+    -----------------
+        words (list): Words to transform to lowercase
+
+    Returns:
+    -----------------
+        stemmed_words (list): List of words stemed
+    """
+
+    # Initializing an object of class PorterStemmer
+    stemmer = SnowballStemmer("english")
+
+    stemmed_words = [stemmer.stem(word) for word in words]
+
+    return stemmed_words
+
+
+def lemma_words(words):
+    """
+    Method used to stem words using Lemmatizer algorithm
+
+    Parameters:
+    -----------------
+        words (list): Words to transform to lowercase
+
+    Returns:
+    -----------------
+        lemma_words (list): Lema words list
+    """
+
+    # Initializing an object of class lemmatizer
+    lemmatizer = WordNetLemmatizer()
+
+    lemma_words = [lemmatizer.lemmatize(word) for word in words]
+
+    return lemma_words
