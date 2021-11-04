@@ -1,15 +1,16 @@
 import re
 import string
-
 import unidecode
+
 from bs4 import BeautifulSoup
 
 # Natural Language Processing
 import nltk
-nltk.download("wordnet")
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
+nltk.download("wordnet")
+nltk.download("averaged_perceptron_tagger")
 
 
 def check_characters(text):
@@ -291,6 +292,7 @@ def remove_punctuation(text):
     Returns:
     -----------------
         text (string): Text cleaned without punctuation
+
     """
 
     # adding space before punctuation
@@ -333,6 +335,7 @@ def tokenizer(text):
     Returns:
     -----------------
         tokens (list): Word into text tokenized
+
     """
 
     tokenizer = nltk.RegexpTokenizer(r"\w+")
@@ -345,6 +348,7 @@ def cleaning_up_text(text, contractions):
     """
     Method used to clean up the text calling
     the following methods
+
     - remove_newlines_tabs(text)
     - remove_html_tags(text)
     - remove_links(text)
@@ -367,6 +371,7 @@ def cleaning_up_text(text, contractions):
     Returns:
     -----------------
         words (list): Words cleaned
+
     """
 
     text = remove_newlines_tabs(text)
@@ -398,6 +403,7 @@ def remove_stop_words(words, language):
     Returns:
     -----------------
         filtered_words (list): List of words without stop words
+
     """
 
     stop_words = set(stopwords.words(language))
@@ -405,6 +411,64 @@ def remove_stop_words(words, language):
                       if word not in stop_words]
 
     return filtered_words
+
+
+def keep_nouns(words):
+    """
+    Method used to keep only nouns in words
+
+    NN   : noun, common, singular or mass
+           common-carrier cabbage knuckle-duster Casino
+    NNP  : noun, proper, singular
+           Motown Venneboerger Czestochwa Ranzer Conchita
+    NNPS : noun, proper, plural
+           Americans Americas Amharas Amityvilles
+    NNS  : noun, common, plural
+           undergraduates scotches bric-a-brac products
+
+    Parameters:
+    -----------------
+        words (list): Words to filtered
+
+    Returns:
+    -----------------
+        filtered_words (list): List of words filtered by nouns
+
+    """
+
+    tags = nltk.pos_tag(words)
+
+    filtered_words = [word for word, pos in tags
+                      if (pos == "NN" or pos == "NNP" or
+                          pos == "NNPS" or pos == "NNS")]
+
+    return filtered_words
+
+
+def remove_words(words, language):
+    """
+    Method used to remove words calling
+    the following methods
+
+    - remove_stop_words(words)
+    - keep_nouns(words)
+
+    Parameters:
+    -----------------
+        words (list): Words to treat
+        language (str): Language to use to remove stop words
+                        ["english", "french", "spanish"]
+
+    Returns:
+    -----------------
+        words (list): Words cleaned
+
+    """
+
+    words = remove_stop_words(words, language)
+    words = keep_nouns(words)
+
+    return words
 
 
 def stem_words(words):
@@ -418,6 +482,7 @@ def stem_words(words):
     Returns:
     -----------------
         stemmed_words (list): List of words stemed
+
     """
 
     # Initializing an object of class PorterStemmer
@@ -439,6 +504,7 @@ def lemma_words(words):
     Returns:
     -----------------
         lemma_words (list): Lema words list
+
     """
 
     # Initializing an object of class lemmatizer
