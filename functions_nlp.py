@@ -396,7 +396,7 @@ def remove_stop_words(words, language):
 
     Parameters:
     -----------------
-        words (list): Words to transform to lowercase
+        words (list): Words to filter
         language (str): Language to use to remove stop words
                         ["english", "french", "spanish"]
 
@@ -409,6 +409,28 @@ def remove_stop_words(words, language):
     stop_words = set(stopwords.words(language))
     filtered_words = [word for word in words
                       if word not in stop_words]
+
+    return filtered_words
+
+
+def remove_non_english_words(words):
+    """
+    Method used to remove non english words
+
+    Parameters:
+    -----------------
+        words (list): Words to filter
+
+    Returns:
+    -----------------
+        filtered_words (list): List of words without non english words
+
+    """
+
+    english_words = set(nltk.corpus.words.words())
+
+    filtered_words = [word for word in words
+                      if word in english_words]
 
     return filtered_words
 
@@ -451,6 +473,7 @@ def remove_words(words, language):
     the following methods
 
     - remove_stop_words(words)
+    - remove_non_english_words(words)
     - keep_nouns(words)
 
     Parameters:
@@ -466,6 +489,7 @@ def remove_words(words, language):
     """
 
     words = remove_stop_words(words, language)
+#     words = remove_non_english_words(words)
     words = keep_nouns(words)
 
     return words
