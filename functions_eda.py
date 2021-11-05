@@ -216,7 +216,7 @@ def barplot_and_pie(df, title, subtitle_keyword):
 
     # Setting up the barplot
     ax2.set_title(subtitle_keyword + " by quantity (#)", size=14)
-    plot = sns.barplot(x=labels, y=data, ax=ax2)
+    plot = sns.barplot(x=labels, y=data, ax=ax2, palette="husl")
     plot.set_xticklabels(labels=labels, rotation=70, size=12,
                          horizontalalignment="right")
 
