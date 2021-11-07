@@ -201,7 +201,7 @@ def barplot_and_pie(df, title, subtitle_keyword):
     if len(data) > 10:
         figsize = [25, 10]
     else:
-        figsize = [14, 10]
+        figsize = [14, 8]
 
     # defining the color palette
     colors = sns.color_palette("husl", len(data))

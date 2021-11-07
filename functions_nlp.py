@@ -344,6 +344,26 @@ def tokenizer(text):
     return tokens
 
 
+def cleaning_up_product_specifications(text):
+    """
+    Method used to clean up the feature
+    product_specifications
+
+    Parameters:
+    -----------------
+        text (str): text to tokenize
+
+    Returns:
+    -----------------
+        text (str): Cleaned text
+
+    """    
+    text = re.findall(r"\"value\"=>\"(.*?)\"}", text)
+    text = " ".join(text)
+    
+    return text
+    
+
 def cleaning_up_text(text, contractions):
     """
     Method used to clean up the text calling
