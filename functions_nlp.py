@@ -426,7 +426,15 @@ def remove_stop_words(words, language):
 
     """
 
-    stop_words = set(stopwords.words(language))
+#     stop_words = set(stopwords.words(language))
+    stop_words = stopwords.words(language)
+
+    # extending stop words
+    others_stop_words = ["cm", "inch", "g",
+                         "com", "ml", "yes",
+                         "rs"]
+    stop_words.extend(others_stop_words)
+
     filtered_words = [word for word in words
                       if word not in stop_words]
 
