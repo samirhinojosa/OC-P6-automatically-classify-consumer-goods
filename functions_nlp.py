@@ -426,7 +426,6 @@ def remove_stop_words(words, language):
 
     """
 
-#     stop_words = set(stopwords.words(language))
     stop_words = stopwords.words(language)
 
     # extending stop words
