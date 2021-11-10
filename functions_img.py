@@ -1,5 +1,6 @@
+import matplotlib.pyplot as plt
+import numpy as np
 import cv2
-from PIL import Image, ImageOps
 
 
 def image_size(image_name, path):
@@ -109,7 +110,17 @@ def contrast_and_brightness(image_name, path=None):
     image_result = cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
 
     # Saving the new image
-    cv2.imwrite(path + "contrast_and_brightness/cb_" +
+    cv2.imwrite(path + "contrast_and_brightness/" +
+                image_name, image_result)
+
+
+def gray_image(image_name, path):
+    image = cv2.imread(path + image_name)
+
+    image_result = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Saving the new image
+    cv2.imwrite(path + "gray_images/" +
                 image_name, image_result)
 
 
