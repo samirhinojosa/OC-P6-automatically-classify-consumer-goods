@@ -66,6 +66,7 @@ def contrast_and_brightness(image_name, path=None):
 
     Returns:
     -----------------
+        None.
         Image saved in path + thumbnails + contrast_and_brightness
 
     """
@@ -114,36 +115,26 @@ def contrast_and_brightness(image_name, path=None):
                 image_name, image_result)
 
 
-def gray_image(image_name, path):
-    image = cv2.imread(path + image_name)
-
-    image_result = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Saving the new image
-    cv2.imwrite(path + "gray_images/" +
-                image_name, image_result)
-
-
-def show_image_and_histogram(original_image, original_path,
-                             edited_image, edited_image_path):
+def show_image_and_histogram(image_name, original_path,
+                             edited_image_path):
     """
     Method used to show image and its histogram
 
     Parameters:
     -----------------
-        original_image (str): Name of original image
+        image_name (str): Name of original image
         original_path (str): Path of original image
-        edited_image (str): Name of edited image
         edited_image_path (str): Path of edited image
 
     Returns:
     -----------------
-        Image saved in path + thumbnails + contrast_and_brightness
+        None
+        Plot original and edited image with their histograms
 
     """
 
-    original_image = cv2.imread(original_path + original_image)
-    edited_image = cv2.imread(edited_image_path + edited_image)
+    original_image = cv2.imread(original_path + image_name)
+    edited_image = cv2.imread(edited_image_path + image_name)
 
     fig = plt.figure(figsize=(12, 8))
 
@@ -170,3 +161,53 @@ def show_image_and_histogram(original_image, original_path,
 
     plt.tight_layout()
     plt.show()
+
+
+def gray_image(image_name, path):
+    """
+    Method used to transform image to gray
+
+    Parameters:
+    -----------------
+        image_name (str): Name of original image
+        path (str): Image path
+
+    Returns:
+    -----------------
+        None.
+        Image transform to gray
+
+    """
+
+    image = cv2.imread(path + image_name)
+
+    image_result = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Saving the new image
+    cv2.imwrite(path + "gray_images/" +
+                image_name, image_result)
+
+
+def noise_reduction(image_name, path):
+    """
+    Method used to reduce noise in image
+
+    Parameters:
+    -----------------
+        image_name (str): Name of original image
+        path (str): Image path
+
+    Returns:
+    -----------------
+        None.
+        Image with noise reduced
+
+    """
+
+    image = cv2.imread(path + image_name)
+
+    image_result = cv2.fastNlMeansDenoising(image, h=3)
+
+    # Saving the new image
+    cv2.imwrite(path + "noise_reduction/" +
+                image_name, image_result)
