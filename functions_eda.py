@@ -7,6 +7,7 @@ from math import prod
 # Visualizations
 import matplotlib.pyplot as plt
 import seaborn as sns
+from statsmodels.graphics.gofplots import qqplot
 
 
 def df_analysis(df, name_df, *args, **kwargs):
@@ -225,4 +226,49 @@ def barplot_and_pie(df, title, subtitle_keyword):
                  fontdict=dict(fontsize=10, color="gray"))
 
     plt.tight_layout()
+    plt.show()
+
+
+def boxplot_histogram_qqplot(df, titre_label):
+    """
+    Method used to plot a boxplot, histogram and qqplot in the
+    same plot
+
+    Parameters:
+    -----------------
+        df (pandas.DataFrame): Column dataset to analyze / plot
+        titre_label (str): Graph name and X label for the histogram
+
+    Returns:
+    -----------------
+        None.
+        Plot the graphs.
+    """
+
+    # Initializing figure
+    fig = plt.figure(constrained_layout=True, figsize=[16, 6])
+    fig.suptitle(titre_label, size=25, fontweight="bold", y=1.05)
+    spec = fig.add_gridspec(nrows=2, ncols=2, width_ratios=[1, 1],
+                            height_ratios=[1, 5])
+
+    # Defining location for each plot
+    ax_box = fig.add_subplot(spec[0, 0])
+    ax_hist = fig.add_subplot(spec[1, 0])
+    ax_qqplot = fig.add_subplot(spec[:, 1])
+
+    # Boxplot
+    boxplot = sns.boxplot(x=df, showmeans=True, ax=ax_box,
+                          meanprops={"markerfacecolor": "white",
+                                     "markeredgecolor": "blue"})
+    ax_box.set(xlabel="", xticks=[])
+    ax_box.set(yticks=[])
+    boxplot.set_title("")
+
+    # Histplot
+    sns.histplot(x=df, bins=75,  kde=True,  ax=ax_hist)
+    ax_hist.set(xlabel=titre_label)
+
+    # QQplot
+    qqplot(df, line='s', ax=ax_qqplot)
+
     plt.show()

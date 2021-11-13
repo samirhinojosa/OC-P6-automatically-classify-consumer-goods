@@ -24,7 +24,7 @@ def image_size(image_name, path):
     return(image.shape[1], image.shape[0])
 
 
-def thumbnail_image(image_name, basewidth=None, path=None):
+def thumbnail_image(image_name, basewidth, path):
     """
     Method used to create a thumbnail image
 
@@ -55,7 +55,7 @@ def thumbnail_image(image_name, basewidth=None, path=None):
     cv2.imwrite(path + "thumbnails/" + image_name, image_resized)
 
 
-def contrast_and_brightness(image_name, path=None):
+def contrast_and_brightness(image_name, path):
     """
     Method used to fit the contrast and brightness automatically
 
