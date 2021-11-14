@@ -211,3 +211,34 @@ def noise_reduction(image_name, path):
     # Saving the new image
     cv2.imwrite(path + "noise_reduction/" +
                 image_name, image_result)
+
+
+def plot_two_images(image_a, image_b):
+    """
+    Method used to plot two images
+
+    Parameters:
+    -----------------
+        image_a (img): Image on the left
+        image_b (img): Image on the right
+
+    Returns:
+    -----------------
+        None.
+        Plot images
+
+    """
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+    ax1.imshow(image_a)
+    ax1.grid(None)
+    ax1.axis("off")
+    ax1.set_title("image a", fontsize=14)
+    ax2.imshow(image_b)
+    ax2.grid(None)
+    ax2.axis("off")
+    ax2.set_title("image b", fontsize=14)
+
+    plt.tight_layout()
+    plt.show()
