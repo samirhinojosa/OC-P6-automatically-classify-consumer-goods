@@ -213,7 +213,8 @@ def noise_reduction(image_name, path):
                 image_name, image_result)
 
 
-def plot_two_images(image_a, image_b):
+def plot_two_images(image_a, image_b,
+                    title_a=None, title_b=None):
     """
     Method used to plot two images
 
@@ -234,11 +235,18 @@ def plot_two_images(image_a, image_b):
     ax1.imshow(image_a)
     ax1.grid(None)
     ax1.axis("off")
-    ax1.set_title("image a", fontsize=14)
+    if title_a is not None:
+        ax1.set_title(title_a, fontsize=14)
+    else:
+        ax1.set_title("image a", fontsize=14)
+
     ax2.imshow(image_b)
     ax2.grid(None)
     ax2.axis("off")
-    ax2.set_title("image b", fontsize=14)
+    if title_a is not None:
+        ax2.set_title(title_b, fontsize=14)
+    else:
+        ax2.set_title("image b", fontsize=14)
 
     plt.tight_layout()
     plt.show()
