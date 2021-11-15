@@ -516,7 +516,7 @@ def remove_words(words, language):
     """
 
     words = remove_stop_words(words, language)
-    # words = remove_non_english_words(words)
+    words = remove_non_english_words(words)
     words = keep_nouns(words)
 
     return words
