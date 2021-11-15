@@ -266,7 +266,7 @@ def get_descriptors(df, path, decoder):
 
     Returns:
     -----------------
-        desc_by_image (np array) : Descriptors by images
+        desc_by_image (np asarray) : Descriptors by images
         desc_all (np array) : All descriptors
 
     """
