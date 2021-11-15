@@ -250,3 +250,38 @@ def plot_two_images(image_a, image_b,
 
     plt.tight_layout()
     plt.show()
+
+
+def get_descriptors(df, path, decoder):
+    """
+    Method used to get the descriptors of set images
+
+    Parameters:
+    -----------------
+        df (pandas.DataFrame): Dataset to analyze
+                                (only feature image)
+        path (str): Image path
+        decoder (obj): Decoder to treat the images
+                        ["sift", "orb"]
+
+    Returns:
+    -----------------
+        desc_by_image (np array) : Descriptors by images
+        desc_all (np array) : All descriptors
+
+    """
+
+    descriptors = []
+
+    for ind in df.index:
+
+        image = cv2.imread(path + df[ind])
+        kp, des = decoder.detectAndCompute(image, None)
+
+        if des is not None:
+            descriptors.append(des)
+
+    desc_by_image = np.asarray(descriptors, dtype=object)
+    desc_all = np.concatenate(desc_by_image, axis=0)
+
+    return(desc_by_image, desc_all)
