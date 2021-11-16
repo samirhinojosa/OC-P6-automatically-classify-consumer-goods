@@ -1,6 +1,12 @@
+# General
 import matplotlib.pyplot as plt
 import numpy as np
+
+# Computer vision library
 import cv2
+
+# Scikit Learn
+from sklearn.cluster import MiniBatchKMeans
 
 
 def image_size(image_name, path):
@@ -285,3 +291,49 @@ def get_descriptors(df, path, decoder):
     desc_all = np.concatenate(desc_by_image, axis=0)
 
     return(desc_by_image, desc_all)
+
+
+def build_features(kmeans, descriptors_by_image):
+    """
+    Method used to build the histogram based on the descriptors
+
+    Parameters:
+    -----------------
+        kmeans (obj): Based on sklearn.cluster / MiniBatchKMeans
+        descriptors_by_image (np asarray) : Descriptors by images
+
+    Returns:
+    -----------------
+        images_features (np asarray) : Descriptors by images
+
+    """
+
+    # Creation of a matrix of histograms
+    histogram = []
+
+    for i, desc_by_img in enumerate(descriptors_by_image):
+
+        if i % 100 == 0:
+            print(i)
+
+        # To weigh the histogram based on the number of descriptors
+        number_descriptor = len(desc_by_img)
+        if number_descriptor == 0:
+            print("problem histogram image:", i)
+
+        # Prediction based on MiniBatchKMeans.
+        # Cluster labels based on descriptors
+        cluster = kmeans.predict(desc_by_img)
+        # histogram based on centroids
+        hist_by_image = np.zeros(len(kmeans.cluster_centers_))
+
+        # For each cluster/descriptors found into histogram
+        # we add +1 weigh based on the number of descriptors
+        for j in cluster:
+            hist_by_image[j] += 1.0/number_descriptor
+
+        histogram.append(hist_by_image)
+
+    images_features = np.asarray(histogram)
+
+    return images_features
