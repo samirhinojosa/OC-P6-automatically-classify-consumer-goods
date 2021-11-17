@@ -305,11 +305,13 @@ def build_features(kmeans, descriptors_by_image):
     Returns:
     -----------------
         images_features (np asarray) : Descriptors by images
+        images_features (np asarray) : Descriptors by images weighed
+                                       based on number of descriptors
 
     """
 
     # Creation of a matrix of histograms
-    histogram = []
+    histogram, histogram_weighed = [[] for i in range(2)]
 
     for i, desc_by_img in enumerate(descriptors_by_image):
 
@@ -326,14 +328,18 @@ def build_features(kmeans, descriptors_by_image):
         cluster = kmeans.predict(desc_by_img)
         # histogram based on centroids
         hist_by_image = np.zeros(len(kmeans.cluster_centers_))
+        hist_by_image_weighed = hist_by_image.copy()
 
         # For each cluster/descriptors found into histogram
         # we add +1 weigh based on the number of descriptors
         for j in cluster:
-            hist_by_image[j] += 1.0/number_descriptor
-
+            hist_by_image[j] += 1.0
+            hist_by_image_weighed[j] += 1.0/number_descriptor
+            
         histogram.append(hist_by_image)
+        histogram_weighed.append(hist_by_image_weighed)
 
     images_features = np.asarray(histogram)
+    images_features_weighed = np.asarray(histogram_weighed)
 
-    return images_features
+    return images_features, images_features_weighed
