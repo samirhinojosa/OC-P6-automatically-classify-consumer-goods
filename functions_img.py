@@ -335,7 +335,7 @@ def build_features(kmeans, descriptors_by_image):
         for j in cluster:
             hist_by_image[j] += 1.0
             hist_by_image_weighed[j] += 1.0/number_descriptor
-            
+
         histogram.append(hist_by_image)
         histogram_weighed.append(hist_by_image_weighed)
 
