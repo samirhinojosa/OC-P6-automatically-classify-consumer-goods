@@ -564,3 +564,26 @@ def lemma_words(words):
     lemma_words = [lemmatizer.lemmatize(word) for word in words]
 
     return lemma_words
+
+
+def display_topics(lda, feature_names, number_of_words):
+    """
+    Method used to display topics based on LDA Latent Dirichlet Allocation
+
+    Parameters:
+    -----------------
+        lda (obj): Based on sklearn.decomposition import LatentDirichletAllocation
+        feature_names (obj): 
+        number_of_words (int): Number of word to show
+
+    Returns:
+    -----------------
+        None.
+        Print words based on topic
+
+    """
+
+    for topic_idx, topic in enumerate(lda.components_):
+        print("- Topic %d:" % (topic_idx))
+        print("  " + " ".join([feature_names[i]
+                        for i in topic.argsort()[:-number_of_words - 1:-1]]))
