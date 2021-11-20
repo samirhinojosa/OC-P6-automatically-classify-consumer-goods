@@ -1,6 +1,7 @@
 # General
 import io
 import gc
+import timeit
 import pandas as pd
 from math import prod
 
@@ -8,6 +9,10 @@ from math import prod
 import matplotlib.pyplot as plt
 import seaborn as sns
 from statsmodels.graphics.gofplots import qqplot
+
+# Scikit Learn
+from sklearn.metrics import (calinski_harabasz_score, davies_bouldin_score,
+                            silhouette_score)
 
 
 def df_analysis(df, name_df, *args, **kwargs):
@@ -272,3 +277,40 @@ def boxplot_histogram_qqplot(df, titre_label):
     qqplot(df, line='s', ax=ax_qqplot)
 
     plt.show()
+
+
+def benchmark_kmeans(name, kmeans, n_clusters, data):
+    """
+    Method used to calculate the KMeans benchmark
+    considering differents metrics based on external
+    and internal information
+
+    Parameters:
+    -----------------
+        name (str): Name of the setup
+        kmeans (class sklearn.cluster.KMeans): Model KMeans initialized
+        n_clusters (int): Number of cluster.
+                          It is the same number of n_clusters in kmeans
+        data (pandas.DataFrame): Dataset to analyze
+
+        Returns:
+    -----------------
+        results (array): Results based on metrics
+    """
+
+    start_time_model = timeit.default_timer()
+    cluster_labels = kmeans.fit_predict(data)
+    end_time_model = round(timeit.default_timer() - start_time_model, 3)
+
+    results = [name, n_clusters, end_time_model, kmeans.inertia_]
+
+    # Metrics which require the full dataset
+    clustering_metrics = [
+        calinski_harabasz_score,
+        davies_bouldin_score,
+        silhouette_score
+    ]
+
+    results += [m(data, kmeans.labels_) for m in clustering_metrics]
+
+    return results
