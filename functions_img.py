@@ -8,6 +8,9 @@ import cv2
 # Scikit Learn
 from sklearn.cluster import MiniBatchKMeans
 
+# Others
+from PIL import Image
+
 
 def image_size(image_name, path):
     """
@@ -285,6 +288,19 @@ def get_descriptors(df, path, decoder):
         kp, des = decoder.detectAndCompute(image, None)
 
         if des is not None:
+            descriptors.append(des)
+        else:
+            # resizing the image
+            img = Image.open(path + df[ind])
+            x, y = img.size
+            size = max(250, x, y)
+            new_image = Image.new("RGB", (size, size), (255, 255, 255))
+            new_image.paste(img, (int((size-x) / 2), int((size-y) / 2)))
+            new_image.save(path + df[ind])
+
+            # Getting again keypoints and descriptors
+            image = cv2.imread(path + df[ind])
+            kp, des = decoder.detectAndCompute(image, None)
             descriptors.append(des)
 
     desc_by_image = np.asarray(descriptors, dtype=object)
